@@ -23,5 +23,3 @@ npm run dev:full             # runs `vercel dev` — serves the frontend + /api 
 
 `npm run dev` alone starts Vite only, without the `/api` routes — useful for
 UI-only work, but the upload → analyze flow needs `dev:full`.
-
-## Project structure
