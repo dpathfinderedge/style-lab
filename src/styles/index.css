@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@theme {
+  /* Dark theme. "ink" is the page background; "bone" is now the light foreground text,
+     which still fits its name — pale, like bone against dark ground. */
+  --color-ink: #181714;
+  --color-bone: #efede7;
+  --color-pencil: #4a4740;
+  --color-index: #5b7fb5;
+  --color-ochre: #d9a254;
+
+  --font-display: "Fraunces", serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+body {
+  background-color: var(--color-ink);
+  color: var(--color-bone);
+  font-family: var(--font-body);
+}
