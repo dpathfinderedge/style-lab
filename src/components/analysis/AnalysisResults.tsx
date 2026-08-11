@@ -46,8 +46,6 @@ export function AnalysisResults({
   const [promptText, setPromptText] = useState(() => assemblePrompt(analysis, platform));
   const [copied, setCopied] = useState(false);
 
-  // Regenerating from source fields on platform change is the whole point of
-  // doing this client-side — instant, and never re-runs the vision call.
   useEffect(() => {
     setPromptText(assemblePrompt(analysis, platform));
     setCopied(false);
