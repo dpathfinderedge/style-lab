@@ -1,4 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { checkRateLimit } from "./_lib/rateLimit";
+
 import type {
   AnalyzeRequestBody,
   AnalyzeErrorBody,
@@ -30,9 +32,27 @@ function isValidBody(body: unknown): body is AnalyzeRequestBody {
   );
 }
 
+function getClientIp(req: VercelRequest): string {
+  const forwarded = req.headers["x-forwarded-for"];
+  if (typeof forwarded === "string") return forwarded.split(",")[0]?.trim() ?? "unknown";
+  if (Array.isArray(forwarded)) return forwarded[0] ?? "unknown";
+  return req.socket.remoteAddress ?? "unknown";
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
   if (req.method !== "POST") {
     res.status(405).json({ error: "Method not allowed" } satisfies AnalyzeErrorBody);
+    return;
+  }
+
+  const rateLimit = checkRateLimit(getClientIp(req));
+  if (!rateLimit.allowed) {
+    if (rateLimit.retryAfterSeconds) {
+      res.setHeader("Retry-After", String(rateLimit.retryAfterSeconds));
+    }
+    res.status(429).json({
+      error: "Too many requests. Please wait a bit before analyzing another image.",
+    } satisfies AnalyzeErrorBody);
     return;
   }
 
