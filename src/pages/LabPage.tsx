@@ -1,10 +1,13 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ImageDropzone } from "@/components/upload/ImageDropzone";
 import { AnalysisSkeleton } from "@/components/analysis/AnalysisSkeleton";
 import { AnalysisResults } from "@/components/analysis/AnalysisResults";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import { useStyleAnalysis } from "@/hooks/useStyleAnalysis";
+import { useAnalysisHistory } from "@/hooks/useAnalysisHistory";
+import { createThumbnailDataUrl } from "@/utils/image";
+import type { StyleAnalysis } from "@/types/style-analysis";
 
 export default function LabPage(): React.JSX.Element {
   const {
@@ -15,8 +18,24 @@ export default function LabPage(): React.JSX.Element {
     setFile,
     reset: resetUpload,
   } = useImageUpload();
-  const { result, error: analysisError, isLoading, analyze, reset: resetAnalysis } =
-    useStyleAnalysis();
+  const {
+    result,
+    error: analysisError,
+    isLoading,
+    analyze,
+    reset: resetAnalysis,
+  } = useStyleAnalysis();
+  const { addEntry } = useAnalysisHistory();
+
+  const savedResultRef = useRef<StyleAnalysis | null>(null);
+
+  useEffect(() => {
+    if (!result || !image || savedResultRef.current === result) return;
+    savedResultRef.current = result;
+    void createThumbnailDataUrl(image.file).then((thumbnailDataUrl) => {
+      addEntry(result, thumbnailDataUrl);
+    });
+  }, [result, image, addEntry]);
 
   const handleFileSelected = useCallback(
     (file: File) => {
@@ -34,6 +53,7 @@ export default function LabPage(): React.JSX.Element {
   const handleStartOver = useCallback(() => {
     resetUpload();
     resetAnalysis();
+    savedResultRef.current = null;
   }, [resetUpload, resetAnalysis]);
 
   return (
@@ -42,15 +62,23 @@ export default function LabPage(): React.JSX.Element {
         <Link to="/" className="font-display text-lg tracking-tight">
           Style Lab
         </Link>
-        {(image ?? result) ? (
-          <button
-            type="button"
-            onClick={handleStartOver}
+        <div className="flex items-center gap-4">
+          <Link
+            to="/history"
             className="text-bone/70 hover:text-bone text-sm underline underline-offset-4"
           >
-            Start over
-          </button>
-        ) : null}
+            History
+          </Link>
+          {(image ?? result) ? (
+            <button
+              type="button"
+              onClick={handleStartOver}
+              className="text-bone/70 hover:text-bone text-sm underline underline-offset-4"
+            >
+              Start over
+            </button>
+          ) : null}
+        </div>
       </header>
 
       {!result && !isLoading ? (

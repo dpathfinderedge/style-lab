@@ -35,10 +35,6 @@ function readImageDimensions(file: File): Promise<{ width: number; height: numbe
   });
 }
 
-/**
- * Validates a file before it's ever sent anywhere — catches wrong type,
- * oversized files, and unreasonably large dimensions client-side.
- */
 export async function validateImage(
   file: File,
 ): Promise<{ ok: true; value: ValidatedImage } | { ok: false; error: ImageValidationError }> {
@@ -69,7 +65,6 @@ export async function validateImage(
   }
 }
 
-/** Converts a File to a bare base64 string (no data: URL prefix) for the API payload. */
 export function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -83,5 +78,37 @@ export function fileToBase64(file: File): Promise<string> {
     };
     reader.onerror = () => reject(new Error("Failed to read file"));
     reader.readAsDataURL(file);
+  });
+}
+
+export function createThumbnailDataUrl(file: File, maxDimension = 320): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      const scale = Math.min(1, maxDimension / Math.max(img.naturalWidth, img.naturalHeight));
+      const width = Math.round(img.naturalWidth * scale);
+      const height = Math.round(img.naturalHeight * scale);
+
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+
+      URL.revokeObjectURL(url);
+
+      if (!ctx) {
+        reject(new Error("Canvas 2D context unavailable"));
+        return;
+      }
+
+      ctx.drawImage(img, 0, 0, width, height);
+      resolve(canvas.toDataURL("image/jpeg", 0.72));
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("Could not load image for thumbnail"));
+    };
+    img.src = url;
   });
 }

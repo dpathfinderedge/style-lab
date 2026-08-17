@@ -33,12 +33,20 @@ export default function LandingPage(): React.JSX.Element {
     <div className="mx-auto max-w-5xl px-6 py-10">
       <header className="mb-16 flex flex-wrap items-center justify-between gap-4">
         <span className="font-display text-lg tracking-tight">Style Lab</span>
-        <Link
-          to="/lab"
-          className="border-bone/40 hover:bg-bone hover:text-ink border px-4 py-1.5 text-sm transition-colors"
-        >
-          Open the lab
-        </Link>
+        <div className="flex items-center gap-4">
+          <Link
+            to="/history"
+            className="text-bone/70 hover:text-bone text-sm underline underline-offset-4"
+          >
+            History
+          </Link>
+          <Link
+            to="/lab"
+            className="border-bone/40 hover:bg-bone hover:text-ink border px-4 py-1.5 text-sm transition-colors"
+          >
+            Open the lab
+          </Link>
+        </div>
       </header>
 
       <section className="mb-24 grid items-center gap-12 md:grid-cols-2">
