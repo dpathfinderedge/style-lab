@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { checkRateLimit } from "./_lib/rateLimit";
+import { isAcceptedMediaType, bytesMatchMediaType } from "./_lib/validateImage";
 
 import type {
   AnalyzeRequestBody,
@@ -7,7 +8,7 @@ import type {
   StyleAnalysis,
 } from "../src/types/style-analysis";
 
-const MAX_IMAGE_BYTES = 5 * 1024 * 1024; // base64 payload ceiling, matches client-side check
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024; 
 
 const SYSTEM_PROMPT = `You are a visual style analyst. Given an image, describe its STYLE, not its literal subject matter in detail. Focus on medium, composition, lighting, color, texture, and technique — the qualities someone would need to reproduce this look on a different subject.
 
@@ -74,6 +75,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
   if (imageBase64.length > MAX_IMAGE_BYTES) {
     res.status(413).json({
       error: "Image is too large. Please use an image under ~4MB.",
+    } satisfies AnalyzeErrorBody);
+    return;
+  } 
+
+  if (!isAcceptedMediaType(mediaType)) {
+    res.status(400).json({
+      error: "Unsupported image type. Please upload a JPEG, PNG, WebP, or GIF.",
+    } satisfies AnalyzeErrorBody);
+    return;
+  }
+
+  const imageBuffer = Buffer.from(imageBase64, "base64");
+
+  if (!bytesMatchMediaType(imageBuffer, mediaType)) {
+    res.status(400).json({
+      error: "The file's content doesn't match its declared image type.",
     } satisfies AnalyzeErrorBody);
     return;
   }
