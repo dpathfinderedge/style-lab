@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { SpecimenPlate } from "@/components/specimen/SpecimenPlate";
 import type { SpecimenAttribute } from "@/types/specimen";
+import { LogoMark } from "@/components/LogoMark";
 
 const DEMO_ATTRIBUTES: SpecimenAttribute[] = [
   { id: "medium", letter: "A", title: "Medium", value: "35mm film photograph" },
@@ -32,7 +33,10 @@ export default function LandingPage(): React.JSX.Element {
   return (
     <div className="mx-auto max-w-5xl px-6 py-10">
       <header className="mb-16 flex flex-wrap items-center justify-between gap-4">
-        <span className="font-display text-lg tracking-tight">Style Lab</span>
+        <span className="flex items-center gap-2 font-display text-lg tracking-tight">
+          <LogoMark className="h-6 w-6" />
+          Style Lab
+        </span>
         <div className="flex items-center gap-4">
           <Link
             to="/history"

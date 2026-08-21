@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { AnalysisResults } from "@/components/analysis/AnalysisResults";
 import { useAnalysisHistory } from "@/hooks/useAnalysisHistory";
+import { LogoMark } from "@/components/LogoMark";
 
 export default function HistoryDetailPage(): React.JSX.Element {
   const { id } = useParams<{ id: string }>();
@@ -10,7 +11,8 @@ export default function HistoryDetailPage(): React.JSX.Element {
   return (
     <div className="mx-auto max-w-3xl px-6 py-10">
       <header className="mb-10 flex flex-wrap items-center justify-between gap-4">
-        <Link to="/" className="font-display text-lg tracking-tight">
+        <Link to="/" className="flex items-center gap-2 font-display text-lg tracking-tight">
+          <LogoMark className="h-6 w-6" />
           Style Lab
         </Link>
         <Link
