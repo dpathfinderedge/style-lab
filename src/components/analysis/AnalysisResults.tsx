@@ -89,7 +89,7 @@ export function AnalysisResults({
   return (
     <div className="flex flex-col gap-8">
       <div>
-        <div className="text-pencil mb-2 font-mono text-[11px] tracking-wide uppercase">
+        <div className="text-pencil mb-2 font-mono text-xs">
           Format for
         </div>
         <div className="flex flex-wrap gap-2">
@@ -119,7 +119,7 @@ export function AnalysisResults({
         />
 
         <div>
-          <div className="text-pencil mb-2 font-mono text-[11px] tracking-wide uppercase">
+          <div className="text-pencil mb-2 font-mono text-xs">
             Assembled prompt
           </div>
           <textarea
@@ -132,7 +132,7 @@ export function AnalysisResults({
 
         {analysis.style_references.length > 0 ? (
           <div>
-            <div className="text-pencil mb-2 font-mono text-[11px] tracking-wide uppercase">
+            <div className="text-pencil mb-2 font-mono text-xs">
               Style references
             </div>
             <p className="text-bone/70 text-sm">{analysis.style_references.join(" · ")}</p>

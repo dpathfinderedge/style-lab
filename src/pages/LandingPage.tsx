@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { LogoMark } from "@/components/LogoMark";
+import { HeaderAction, HeaderLink, SiteHeader } from "@/components/SiteHeader";
 import { Controls } from "@/components/landing/Controls";
 import { PromptPanel } from "@/components/landing/PromptPanel";
 import { SpecimenDemo } from "@/components/landing/SpecimenDemo";
@@ -32,26 +32,10 @@ export default function LandingPage(): React.JSX.Element {
 
   return (
     <div className="mx-auto max-w-7xl px-5 sm:px-8">
-      <header className="flex items-center justify-between gap-4 py-6">
-        <span className="font-display flex items-center gap-2 text-lg tracking-tight">
-          <LogoMark className="h-6 w-6" />
-          Style Lab
-        </span>
-        <nav className="flex items-center gap-5">
-          <Link
-            to="/history"
-            className="text-bone/80 hover:text-bone text-sm underline underline-offset-4"
-          >
-            History
-          </Link>
-          <Link
-            to="/lab"
-            className="border-bone/40 hover:bg-bone hover:text-ink border px-4 py-1.5 text-sm transition-colors"
-          >
-            Open the lab
-          </Link>
-        </nav>
-      </header>
+      <SiteHeader className="py-6">
+        <HeaderLink to="/history">History</HeaderLink>
+        <HeaderAction to="/lab">Open the lab</HeaderAction>
+      </SiteHeader>
 
       <main>
         <section className="grid gap-10 pt-8 pb-24 lg:grid-cols-12 lg:gap-x-10 lg:gap-y-0 lg:pt-12 lg:pb-32">
@@ -68,7 +52,7 @@ export default function LandingPage(): React.JSX.Element {
                 to="/lab"
                 className="bg-index text-bone px-6 py-3 text-base font-medium transition-opacity hover:opacity-90"
               >
-                Analyse an image
+                Analyze an image
               </Link>
               <a
                 href="#template"
@@ -151,7 +135,7 @@ export default function LandingPage(): React.JSX.Element {
             to="/lab"
             className="bg-index text-bone px-6 py-3 text-base font-medium transition-opacity hover:opacity-90"
           >
-            Analyse an image
+            Analyze an image
           </Link>
         </section>
       </main>
@@ -159,8 +143,8 @@ export default function LandingPage(): React.JSX.Element {
       <footer className="border-pencil text-bone/60 flex flex-wrap justify-between gap-3 border-t py-8 text-sm">
         <span>Style Lab</span>
      
-   <Link to="/history" className="hover:text-bone underline underline-offset-4">
-          Your saved analyses
+        <Link to="/history" className="hover:text-bone underline underline-offset-4">
+          Your saved Analyses
         </Link>
       </footer>
     </div>

@@ -38,7 +38,7 @@ export function SpecimenPlate({ attributes, image }: SpecimenPlateProps): React.
           return (
             <span
               key={attr.id}
-              className="bg-bone border-ink text-ink absolute right-0 flex h-5 w-5 translate-x-1/2 items-center justify-center rounded-full border font-mono text-[11px]"
+              className="bg-bone border-ink text-ink absolute right-0 flex h-5 w-5 translate-x-1/2 items-center justify-center rounded-full border font-mono text-xs"
               style={{ top: `${topPercent}%` }}
               aria-hidden="true"
             >
@@ -56,7 +56,7 @@ export function SpecimenPlate({ attributes, image }: SpecimenPlateProps): React.
               aria-hidden="true"
             />
             <div className="min-w-0">
-              <div className="text-pencil font-mono text-[11px] tracking-wide uppercase">
+              <div className="text-bone/60 font-mono text-xs">
                 {attr.letter} · {attr.title}
               </div>
               <div className="flex items-center gap-2">

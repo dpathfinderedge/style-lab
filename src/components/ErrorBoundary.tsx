@@ -27,7 +27,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     if (this.state.error) {
       return (
         <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-6 text-center">
-          <p className="text-pencil font-mono text-xs uppercase">Something went wrong</p>
+          <p className="text-bone/60 font-mono text-xs">Something went wrong</p>
           <h1 className="font-display text-2xl">Style Lab hit an unexpected error.</h1>
           <p className="text-bone/70 max-w-sm text-sm">
             Try reloading. If it keeps happening, the console has more detail.

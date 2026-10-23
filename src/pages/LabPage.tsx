@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { HeaderLink, SiteHeader } from "@/components/SiteHeader";
 import { ImageDropzone } from "@/components/upload/ImageDropzone";
 import { AnalysisSkeleton } from "@/components/analysis/AnalysisSkeleton";
 import { AnalysisResults } from "@/components/analysis/AnalysisResults";
@@ -8,7 +8,6 @@ import { useStyleAnalysis } from "@/hooks/useStyleAnalysis";
 import { useAnalysisHistory } from "@/hooks/useAnalysisHistory";
 import { createThumbnailDataUrl } from "@/utils/image";
 import type { StyleAnalysis } from "@/types/style-analysis";
-import { LogoMark } from "@/components/LogoMark";
 
 export default function LabPage(): React.JSX.Element {
   const {
@@ -59,29 +58,18 @@ export default function LabPage(): React.JSX.Element {
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-10">
-      <header className="mb-12 flex flex-wrap items-center justify-between gap-4">
-        <Link to="/" className="flex items-center gap-2 font-display text-lg tracking-tight">
-          <LogoMark className="h-6 w-6" />
-          Style Lab
-        </Link>
-        <div className="flex items-center gap-4">
-          <Link
-            to="/history"
-            className="text-bone/70 hover:text-bone text-sm underline underline-offset-4"
+      <SiteHeader className="mb-12">
+        <HeaderLink to="/history">History</HeaderLink>
+        {(image ?? result) ? (
+          <button
+            type="button"
+            onClick={handleStartOver}
+            className="text-bone/80 hover:text-bone text-sm underline underline-offset-4"
           >
-            History
-          </Link>
-          {(image ?? result) ? (
-            <button
-              type="button"
-              onClick={handleStartOver}
-              className="text-bone/70 hover:text-bone text-sm underline underline-offset-4"
-            >
-              Start over
-            </button>
-          ) : null}
-        </div>
-      </header>
+            Start over
+          </button>
+        ) : null}
+      </SiteHeader>
 
       {!result && !isLoading ? (
         <div className="flex flex-col gap-6">

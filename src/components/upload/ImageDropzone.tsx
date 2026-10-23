@@ -71,7 +71,7 @@ export function ImageDropzone({
           <p className="text-sm">
             {isValidating ? "Checking image…" : "Drop an image, or click to browse"}
           </p>
-          <p className="text-pencil font-mono text-[11px]">JPEG, PNG, WebP, or GIF — up to 5MB</p>
+          <p className="text-bone/60 font-mono text-xs">JPEG, PNG, WebP, or GIF — up to 5MB</p>
         </>
       )}
     </div>
