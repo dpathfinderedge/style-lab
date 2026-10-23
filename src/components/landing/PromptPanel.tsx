@@ -119,7 +119,7 @@ export function PromptPanel({ styleId, subjectId }: PromptPanelProps): React.JSX
         </div>
         <p className="text-bone/60 mt-4 text-xs leading-relaxed">
           Built by the same code the lab uses to assemble prompts. The demo analyses are written by
-          hand. Your own images are analysed by the vision model.
+          hand. Your own images are analyzed by the vision model.
         </p>
       </div>
     </div>

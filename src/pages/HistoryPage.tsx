@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
+import { HeaderAction, SiteHeader } from "@/components/SiteHeader";
 import { Trash2 } from "lucide-react";
 import { useAnalysisHistory } from "@/hooks/useAnalysisHistory";
-import { LogoMark } from "@/components/LogoMark";
 
 export default function HistoryPage(): React.JSX.Element {
   const { entries, removeEntry, clearAll } = useAnalysisHistory();
@@ -14,18 +14,9 @@ export default function HistoryPage(): React.JSX.Element {
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-10">
-      <header className="mb-10 flex flex-wrap items-center justify-between gap-4">
-        <Link to="/" className="flex items-center gap-2 font-display text-lg tracking-tight">
-          <LogoMark className="h-6 w-6" />
-          Style Lab
-        </Link>
-        <Link
-          to="/lab"
-          className="text-bone/70 hover:text-bone text-sm underline underline-offset-4"
-        >
-          New analysis
-        </Link>
-      </header>
+      <SiteHeader className="mb-10">
+        <HeaderAction to="/lab">New analysis</HeaderAction>
+      </SiteHeader>
 
       <div className="mb-6 flex items-center justify-between">
         <h1 className="font-display text-2xl">History</h1>
@@ -33,7 +24,7 @@ export default function HistoryPage(): React.JSX.Element {
           <button
             type="button"
             onClick={handleClearAll}
-            className="text-pencil hover:text-ochre text-xs transition-colors"
+            className="text-bone/60 hover:text-ochre text-xs transition-colors"
           >
             Clear all
           </button>
@@ -60,7 +51,7 @@ export default function HistoryPage(): React.JSX.Element {
                 />
                 <div className="min-w-0">
                   <p className="truncate text-sm">{entry.analysis.medium}</p>
-                  <p className="text-pencil font-mono text-[11px]">
+                  <p className="text-bone/60 font-mono text-xs">
                     {new Date(entry.createdAt).toLocaleDateString(undefined, {
                       month: "short",
                       day: "numeric",
@@ -73,7 +64,7 @@ export default function HistoryPage(): React.JSX.Element {
                 type="button"
                 onClick={() => removeEntry(entry.id)}
                 aria-label="Delete this entry"
-                className="text-pencil hover:text-ochre shrink-0 transition-colors"
+                className="text-bone/60 hover:text-ochre shrink-0 transition-colors"
               >
                 <Trash2 size={16} />
               </button>
