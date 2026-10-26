@@ -39,7 +39,10 @@ export function ImageDropzone({
       tabIndex={0}
       onClick={() => inputRef.current?.click()}
       onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") inputRef.current?.click();
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          inputRef.current?.click();
+        }
       }}
       onDragOver={(e) => {
         e.preventDefault();
@@ -47,9 +50,9 @@ export function ImageDropzone({
       }}
       onDragLeave={() => setIsDraggingOver(false)}
       onDrop={handleDrop}
-      className={`border-pencil focus-visible:outline-index relative flex aspect-4/5 w-full max-w-64 cursor-pointer flex-col items-center justify-center gap-2 border border-dashed p-6 text-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 sm:mx-0 ${
-        isDraggingOver ? "border-index bg-index/10" : "hover:border-bone/50"
-      }`}
+      className={`focus-visible:outline-index relative flex w-full cursor-pointer flex-col items-center justify-center gap-2 border border-dashed p-6 text-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 ${
+        previewUrl ? "aspect-4/5 max-w-64" : "min-h-72 sm:aspect-video sm:min-h-0"
+      } ${isDraggingOver ? "border-index bg-index/10" : "border-pencil hover:border-bone/50"}`}
     >
       <input
         ref={inputRef}
@@ -68,10 +71,17 @@ export function ImageDropzone({
         />
       ) : (
         <>
-          <p className="text-sm">
-            {isValidating ? "Checking image…" : "Drop an image, or click to browse"}
+          <p className="font-display text-2xl">
+            {isValidating
+              ? "Checking image…"
+              : isDraggingOver
+                ? "Release to upload"
+                : "Drop a reference image here"}
           </p>
-          <p className="text-bone/60 font-mono text-xs">JPEG, PNG, WebP, or GIF — up to 5MB</p>
+          <p className="text-bone/70 text-sm">
+            or <span className="underline underline-offset-4">browse your files</span>
+          </p>
+          <p className="text-bone/60 mt-3 text-xs">JPEG, PNG, WebP or GIF, up to 5MB</p>
         </>
       )}
     </div>

@@ -73,6 +73,18 @@ export default function LabPage(): React.JSX.Element {
 
       {!result && !isLoading ? (
         <div className="flex flex-col gap-6">
+          {!image ? (
+            <div>
+              <h1 className="font-display text-3xl tracking-tight sm:text-4xl">
+                Start with a reference image.
+              </h1>
+              <p className="text-bone/75 mt-3 max-w-md">
+                Style Lab reads how it looks, not what it shows, and gives you a prompt template with the
+                subject left blank.
+              </p>
+            </div>
+          ) : null}
+          
           <ImageDropzone
             onFileSelected={handleFileSelected}
             previewUrl={previewUrl}
